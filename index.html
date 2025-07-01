@@ -29,28 +29,35 @@ document.getElementById('yesBtn').addEventListener('click', function() {
     imageContainer.innerHTML = '<img src="' + "ring.jpg" + '" alt="Memory"/>';
 });
 
-// Function to get all images from the images directory
-async function getImagesFromDirectory() {
-    try {
-        // This will only work if the images are in a subdirectory called 'images/'
-        // and the server is configured to list directory contents
-        const response = await fetch('images/');
-        const text = await response.text();
-        const parser = new DOMParser();
-        const html = parser.parseFromString(text, 'text/html');
-        const links = html.querySelectorAll('a[href$=".jpg"], a[href$=".jpeg"], a[href$=".png"], a[href$=".gif"]');
-        return Array.from(links).map(link => 'images/' + link.getAttribute('href'));
-    } catch (error) {
-        console.error('Error loading images:', error);
-        return [];
-    }
-}
+// Manual list of images - all your actual image filenames
+const images = [
+    'Ua-1.png',
+    'Ua-2.png',
+    'Untitled 10.png',
+    'Untitled 11.png',
+    'Untitled 12.png',
+    'Untitled 13.png',
+    'Untitled 14.png',
+    'Untitled 15.png',
+    'Untitled 16.png',
+    'Untitled 17.png',
+    'Untitled 18.png',
+    'Untitled 1.png',
+    'Untitled 2.png',
+    'Untitled 3.png',
+    'Untitled 4.png',
+    'Untitled 5.png',
+    'Untitled 6.png',
+    'Untitled 7.png',
+    'Untitled 8.png',
+    'Untitled 9.png',
+    'Untitled.png'
+];
 
 document.getElementById('noBtn').addEventListener('click', async function() {
     const response = document.getElementById('response');
     response.innerHTML = "";
     
-    const images = await getImagesFromDirectory();
     if (images.length === 0) {
         // Fallback to known images if directory listing fails
         images.push('tying_shoe.jpg', 'scriptie_bracelet.jpg');
@@ -61,7 +68,7 @@ document.getElementById('noBtn').addEventListener('click', async function() {
     }
     
     const imageContainer = document.getElementById('imageContainer');
-    imageContainer.innerHTML = '<h2>Really saying No??</h2><img src="' + images[currentIndex] + '" alt="Memory"/>';
+    imageContainer.innerHTML = '<h2>Really saying No??</h2><img src="images/' + images[currentIndex] + '" alt="Memory"/>';
     applyFadeInAnimation(imageContainer);
     currentIndex++;
 });
